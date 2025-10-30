@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>智能设备集成控制台</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>智能设备集成控制台</h1>
+  <div id="devices"></div>
+  <input type="text" id="deviceName" placeholder="输入设备名称">
+  <button onclick="addDevice()">添加设备</button>
+
+  <script>
+    async function addDevice() {
+      const name = document.getElementById('deviceName').value;
+      const res = await fetch('/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      const data = await res.json();
+      document.getElementById('devices').innerHTML = data.devices.map(d => `<p>${d.name}</p>`).join('');
+    }
+  </script>
+</body>
+</html>
